@@ -1,5 +1,5 @@
-# UET_LAB_README
-
+UET_LAB_README
+===========
 Training steps:
 
 - In directory generate_dataset:
