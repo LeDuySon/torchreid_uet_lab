@@ -1,4 +1,5 @@
 # UET_LAB_README
+
 Training steps:
 - In directory generate_dataset:
     + Prepare MOT format groundtruth and place in current folder
