@@ -1,6 +1,7 @@
 # UET_LAB_README
 
 Training steps:
+
 - In directory generate_dataset:
     + Prepare MOT format groundtruth and place in current folder
     + Run: python generate_dataset.py --video_path {video_path} --save_path reid_dataset
