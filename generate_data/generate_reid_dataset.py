@@ -13,6 +13,8 @@ parser.add_argument('--video_path', '-V', type=str,
                     help='video path to extract frame')
 parser.add_argument('--save_path', '-sp', type=str, 
                     help="save frame video path")
+parser.add_argument('--gt_path', '-gt', type=str,
+                    help="path to groundtruth txt file")
 args = parser.parse_args()
 
 IMG_SIZE = (256, 128) # h, w
@@ -37,13 +39,14 @@ def check_num_files(path):
         return len(os.listdir(path))
     return 0
 
-train_path = "reid_dataset/train"
-gallery_path = "reid_dataset/gallery"
-query_path = "reid_dataset/query"
+save_path = args.save_path
+train_path = os.path.join(save_path, "train")
+gallery_path = os.path.join(save_path, "gallery")
+query_path = os.path.join(save_path, "query")
 
 paths = [train_path, gallery_path, query_path]
 
-create_folder("reid_dataset")
+create_folder(save_path)
 for path in paths:
     create_folder(path)
 
@@ -52,7 +55,7 @@ fps = vidcap.get(cv2.CAP_PROP_FPS) # Gets the frames per second
 print("Frame rate: ", fps)
 
 limit_train = 50
-group_frame = get_object_frame("gt.txt")
+group_frame = get_object_frame(args.gt_path)
 ################### Initiate Process ################
 while success:
     frameId = int(round(vidcap.get(1))) #current frame number, rounded b/c sometimes you get frame intervals which aren't integers...this adds a little imprecision but is likely good enough
