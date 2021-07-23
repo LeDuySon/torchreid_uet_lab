@@ -1,3 +1,25 @@
+UET_LAB_README
+===========
+Training steps:
+
+- In directory generate_dataset:
+    + Prepare MOT format groundtruth and place in current folder
+    + Run: python generate_dataset.py --video_path {video_path} --save_path reid_dataset
+    + When finished generate_dataset, change dataset folder to "uet_reid": mv reid_dataset/ uet_reid
+    + mv uet_reid ../reid-data/
+    + cd ..
+- In directory configs:
+    + Choose a model and modify its config: change sources and target to "uet_reid"
+    + cd ..
+- In root directory:
+    + Run: python scripts/main.py \
+            --config-file configs/{config_file} \
+            --transforms random_flip \
+            --root "reid-data"
+# Notes:
+- Dataset folder named must be "uet_reid"
+
+
 Torchreid
 ===========
 Torchreid is a library for deep-learning person re-identification, written in `PyTorch <https://pytorch.org/>`_ and developed for our ICCV'19 project, `Omni-Scale Feature Learning for Person Re-Identification <https://arxiv.org/abs/1905.00953>`_.
