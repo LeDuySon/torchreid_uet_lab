@@ -1,5 +1,5 @@
 model:
-  name: 'osnet_x0_75'
+  name: 'osnet_x1_0'
   pretrained: True
 
 data:
@@ -10,7 +10,7 @@ data:
   width: 128
   combineall: False
   transforms: ['random_flip']
-  save_dir: 'log/osnet_x0_75_uet_softmax'
+  save_dir: 'log/osnet_x1_0_uet_reid_softmax_cosinelr'
 
 loss:
   name: 'softmax'
@@ -20,12 +20,11 @@ loss:
 train:
   optim: 'amsgrad'
   lr: 0.0015
-  max_epoch: 150
+  max_epoch: 250
   batch_size: 64
   fixbase_epoch: 10
   open_layers: ['classifier']
-  lr_scheduler: 'single_step'
-  stepsize: [60]
+  lr_scheduler: 'cosine'
 
 test:
   batch_size: 300
