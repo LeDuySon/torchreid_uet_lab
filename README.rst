@@ -1,21 +1,28 @@
 UET_LAB_README
 ===========
+
+Prepare data:
+- https://github.com/LeDuySon/ALL_SCRIPTS -> generate_reid_data
+
+
 Training steps:
 
-- In directory generate_dataset:
-    + Prepare MOT format groundtruth and place in current folder
-    + Run: python generate_dataset.py --video_path {video_path} --save_path reid_dataset
-    + When finished generate_dataset, change dataset folder to "uet_reid": mv reid_dataset/ uet_reid
-    + mv uet_reid ../reid-data/
-    + cd ..
-- In directory configs:
+- In directory configs/:
     + Choose a model and modify its config: change sources and target to "uet_reid"
     + cd ..
 - In root directory:
-    + Run: python scripts/main.py \
-            --config-file configs/{config_file} \
-            --transforms random_flip \
-            --root "reid-data"
+    + Run:
+.. code-block:: bash
+
+    bash scripts/train_script.sh {path to config file}
+    
+Eval:
+- In root directory:
+    + Run:
+.. code-block:: bash
+
+    bash scripts/test_script.sh {path to config file} {your trained model}
+ 
 # Notes:
 - Dataset folder named must be "uet_reid"
 
