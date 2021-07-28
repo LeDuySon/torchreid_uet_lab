@@ -1,8 +1,4 @@
 config=$1
-model=$2
+models=$2
 root_folder=$3
-python scripts/main.py \
-        --config-file $config \
-        --root  $root_folder \
-        model.load_weights $model \
-        test.evaluate True
+python scripts/test.py --config-file $config -s "uet_reid" -t "uet_reid" --root $root_folder test.evaluate True model.load_weights $models test.dist_metric cosine 
