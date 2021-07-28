@@ -2,11 +2,12 @@ UET_LAB_README
 ===========
 
 Prepare data:
+------------
 - https://github.com/LeDuySon/ALL_SCRIPTS -> generate_reid_data
 
 
 Training steps:
-
+------------
 - In directory configs/:
     + Choose a model and modify its config: change sources and target to "uet_reid"
     + cd ..
@@ -17,6 +18,7 @@ Training steps:
     bash scripts/train_script.sh {path to config file}
     
 Eval:
+------------
 - In root directory:
     + Run:
 .. code-block:: bash
