@@ -4,12 +4,12 @@ model:
 
 data:
   type: 'image'
-  sources: ['market1501']
-  targets: ['market1501', 'dukemtmcreid']
+  sources: ['uet_reid']
+  targets: ['uet_reid']
   height: 256
   width: 128
   combineall: False
-  transforms: ['random_flip', 'color_jitter']
+  transforms: ['random_flip']
   save_dir: 'log/osnet_ain_x1_0_market1501_softmax_cosinelr'
 
 loss:
@@ -20,16 +20,20 @@ loss:
 train:
   optim: 'amsgrad'
   lr: 0.0015
-  max_epoch: 100
+  max_epoch: 15
   batch_size: 64
   fixbase_epoch: 10
   open_layers: ['classifier']
   lr_scheduler: 'cosine'
-
+  print_freq: '80'
+  start_epoch: 11
 test:
-  batch_size: 300
+  batch_size: 150
   dist_metric: 'cosine'
   normalize_feature: False
   evaluate: False
-  eval_freq: -1
+  eval_freq: 5
   rerank: False
+  #visrank: True
+  #visrank_topk: 10
+  #ranks: [1, 5, 10]
