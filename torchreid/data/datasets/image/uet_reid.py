@@ -52,7 +52,7 @@ class UET_REID(ImageDataset):
         #print("id_paths: ", len(id_paths))
         data = []
         for pid in id_paths:
-            ids = int(pid.split("/")[-1]) - 1 # idx start from zero but mot start from 1
+            ids = int(pid.split("/")[-1])
             img_paths = glob.glob(pid + "/*.jpg")
             for img_path in img_paths:
                 data.append((img_path, ids, camid))
