@@ -5,7 +5,7 @@ import os.path as osp
 import tarfile
 import zipfile
 import torch
-
+from PIL import Image
 from torchreid.utils import read_image, download_url, mkdir_if_missing
 
 
@@ -324,6 +324,7 @@ class ImageDataset(Dataset):
     def __getitem__(self, index):
         img_path, pid, camid, dsetid = self.data[index]
         img = read_image(img_path)
+        img.thumbnail((128, 256), Image.ANTIALIAS)
         if self.transform is not None:
             img = self._transform_image(self.transform, self.k_tfm, img)
         item = {
