@@ -67,6 +67,8 @@ def collect_features(qf, ql, gf, gl, query_paths, gallery_paths, limit, min_fram
 
     # for each query 
     for i in range(qf.size(0)):
+        query_time = time.time()
+        print("Query {}".format(i))
         pid = ql[i].item()
 
         # vector feature, label and path to image for each query
@@ -96,16 +98,17 @@ def collect_features(qf, ql, gf, gl, query_paths, gallery_paths, limit, min_fram
         upper_bound = trajectory_bounds[pid]['upper_bound']
 
         # check all instances in gallery that in range [lower_bound, upper_bound] and update
-        for i in range(gf.size(0)):
-            g_path = gallery_paths[i]
-            g_frame = get_frame_index(g_path)
-            if lower_bound <= g_frame <= upper_bound:
-                # embed(header='debug gallery feature')
-                g_feat = torch.unsqueeze(gf[i], dim=0)
-                g_features = torch.cat((g_features, g_feat), dim = 0)
-                g_labels = torch.cat((g_labels, torch.LongTensor([gl[i]])))
-                g_paths.append(gallery_paths[i])
+        start_gallery = time.time()
 
+        g_paths = np.array([g_path for g_path in gallery_paths])
+        g_frames = np.array([get_frame_index(g_path) for g_path in g_paths])
+        valid_idx = np.where((lower_bound <= g_frames) & (g_frames <= upper_bound))[0]
+        g_features = gf[valid_idx]
+        g_labels = gl[valid_idx]
+        # filter path with valid idx
+        g_paths = g_paths[valid_idx]
+
+        print("Gallery check time: ", time.time() - start_gallery)
         # check if a gallery is satisfy the requirement or not
         if len(g_paths) < min_frame:
             ignores += 1
@@ -122,6 +125,8 @@ def collect_features(qf, ql, gf, gl, query_paths, gallery_paths, limit, min_fram
         }
 
         features.append(feat)
+
+        print("Query time: ", time.time() - query_time)
 
     # embed(header='debug collect features')
 
@@ -405,6 +410,11 @@ if __name__ == '__main__':
     parser.add_argument("--inference_dir", default = "inference_test", type=str)
 
     args = parser.parse_args()
+    
+
+    # speed up for torch.cat -> fixed slow code
+    #torch.set_num_threads(8)
+
 
     features = torch.load(args.predict_path)
 
